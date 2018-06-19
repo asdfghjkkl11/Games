@@ -30,7 +30,7 @@ typedef struct _texture
 	int width;// width
 	int height;// height
 } Texture;
-Texture title,font[11],finish;
+Texture title, font[11], finish;
 void texture_create(Texture* p, int w, int h)
 {
 	p->rgb = (GLubyte*)malloc(sizeof(GLubyte)*w*h * 3);
@@ -86,6 +86,7 @@ int timet = 0;
 int timeint[8] = { 0 };
 int ptoggle = 1;
 int htoggle = 0;
+float sizeW = 1200, sizeH = 800;
 GLfloat theta[2] = { 0,0 };
 GLfloat dx[2], dy[2], dz[2];
 GLfloat p3[2];
@@ -104,14 +105,14 @@ int bind3[6][9] = {
 	{ 23,15,6,24,16,7,17,9,0 },//왼쪽
 	{ 4,13,21,3,12,20,2,11,19 }//오른쪽
 };
-int bind4[12][16] = { 
+int bind4[12][16] = {
 	{ 9,8,7,6,10,15,14,5,11,12,13,4,0,1,2,3 },//뒤
 	{ 0,1,2,3,16,17,18,19,28,29,30,31,40,41,42,43 },//위
 	{ 40,41,42,43,51,52,53,44,50,55,54,45,49,48,47,46 },//앞
 	{ 49,48,47,46,37,36,35,34,25,24,23,22,9,8,7,6 },//아래
 	{ 49,37,25,9,50,38,26,10,51,39,27,11,40,28,16,0 },//왼쪽
 	{ 6,22,34,46,5,21,33,45,4,20,32,44,3,19,31,43 },//오른쪽
-	
+
 	{ 28,29,30,31,32,33,34,35,36,37,38,39 },//앞뒤쪽
 	{ 16,17,18,19,20,21,22,23,24,25,26,27 },//뒤앞쪽
 	{ 1,17,29,41,52,55,48,36,24,8,15,12 },//왼쪽오른쪽
@@ -363,7 +364,7 @@ GLfloat colors2[8][6][3] = {
 	{ { 0,0,0 },{ 0,0,0 },{ 0,0,0 },{ 1,1,0 },{ 0,1,1 },{ 1,0,1 } },
 	{ { 0,0,0 },{ 0,0,0 },{ 0,0,1 },{ 0,0,0 },{ 0,1,1 },{ 1,0,1 } },
 };
-GLfloat colors3[26][6][3] = { 
+GLfloat colors3[26][6][3] = {
 	{ { 1,0,0 },{ 0,1,0 },{ 0,0,1 },{ 0,0,0 },{ 0,0,0 },{ 0,0,0 } },
 	{ { 1,0,0 },{ 0,1,0 },{ 0,0,0 },{ 0,0,0 },{ 0,0,0 },{ 0,0,0 } },
 	{ { 1,0,0 },{ 0,1,0 },{ 0,0,0 },{ 1,1,0 },{ 0,0,0 },{ 0,0,0 } },
@@ -373,7 +374,7 @@ GLfloat colors3[26][6][3] = {
 	{ { 1,0,0 },{ 0,0,0 },{ 0,0,1 },{ 0,0,0 },{ 0,0,0 },{ 1,0,1 } },
 	{ { 1,0,0 },{ 0,0,0 },{ 0,0,1 },{ 0,0,0 },{ 0,0,0 },{ 0,0,0 } },
 	{ { 1,0,0 },{ 0,0,0 },{ 0,0,0 },{ 0,0,0 },{ 0,0,0 },{ 0,0,0 } },
-	
+
 	{ { 0,0,0 },{ 0,1,0 },{ 0,0,1 },{ 0,0,0 },{ 0,0,0 },{ 0,0,0 } },
 	{ { 0,0,0 },{ 0,1,0 },{ 0,0,0 },{ 0,0,0 },{ 0,0,0 },{ 0,0,0 } },
 	{ { 0,0,0 },{ 0,1,0 },{ 0,0,0 },{ 1,1,0 },{ 0,0,0 },{ 0,0,0 } },
@@ -456,7 +457,7 @@ GLfloat colors4[56][6][3] = {
 };
 GLfloat startbutton[4][3] = { { 200,-40,150 },{ 290,-40,150 },{ 290,-90,150 },{ 200,-90,150 } };
 GLfloat stopbutton[4][3] = { { 200,-110,150 },{ 290,-110,150 },{ 290,-160,150 },{ 200,-160,150 } };
-void init(){
+void init() {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -498,7 +499,7 @@ void drawtime(int a[]) {
 	glRasterPos3f(-80, -150, 151);
 	glDrawPixels(font[a[5]].width, font[a[5]].height, GL_RGB, GL_UNSIGNED_BYTE, font[a[7]].rgb);
 }
-void polygon(int a, int b, int c, int d, int e){
+void polygon(int a, int b, int c, int d, int e) {
 	if (scale == 2) {
 		glBegin(GL_POLYGON);
 		glVertex3fv(vertices2[e][a]);
@@ -524,11 +525,11 @@ void polygon(int a, int b, int c, int d, int e){
 		glEnd();
 	}
 }
-void display(){
+void display() {
 	int i;
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity(); // load an identity matrix
-	glPixelZoom(1,-1);
+	glPixelZoom(1, -1);
 	glRasterPos3f(-120, 210, 151);
 	glDrawPixels(title.width, title.height, GL_RGB, GL_UNSIGNED_BYTE, title.rgb);
 	if (finished == 1) {
@@ -554,7 +555,7 @@ void display(){
 	glEnd();
 	glColor3f(1, 1, 1);
 	renderBitmapCharacter(231, -139, 151, GLUT_BITMAP_TIMES_ROMAN_24, "STOP");
-	glColor3f(0.8,0.2,0.1);
+	glColor3f(0.8, 0.2, 0.1);
 	renderBitmapCharacter(-280, 200, 151, GLUT_BITMAP_TIMES_ROMAN_24, "HELP");
 	if (htoggle == 1) {
 		renderBitmapCharacter(-280, 180, 151, GLUT_BITMAP_HELVETICA_18, "o : reset cube");
@@ -582,8 +583,8 @@ void display(){
 			renderBitmapCharacter(-280, 40, 151, GLUT_BITMAP_HELVETICA_18, "c,v : turn bottom");
 		}
 	}
-	glRotatef(theta[0]-5, 0.0, 1.0, 0.0);
-	glRotatef(theta[1]+5, 1.0, 0.0, 0.0);
+	glRotatef(theta[0] - 5, 0.0, 1.0, 0.0);
+	glRotatef(theta[1] + 5, 1.0, 0.0, 0.0);
 	if (scale == 2)
 		for (i = 0; i <8; i++) {
 			glPushMatrix();
@@ -637,15 +638,15 @@ void display(){
 		}
 	glFlush();
 }
-void keyboard_handler(unsigned char key, int x, int y){
-	int i, j, k,t;
+void keyboard_handler(unsigned char key, int x, int y) {
+	int i, j, k, t;
 	GLfloat X, Y, Z;
 	if (key == 'p'&&ptoggle == 1) {
 		if (scale == 2) {
 			keyboard_handler('0', 0, 0);
 			scale = 3;
 		}
-		else if (scale == 3){
+		else if (scale == 3) {
 			keyboard_handler('0', 0, 0);
 			scale = 4;
 		}
@@ -660,13 +661,13 @@ void keyboard_handler(unsigned char key, int x, int y){
 		if (key == 'q') {
 			for (i = 0; i < 4; i++) {
 				temp[i] = bind2[2][i];
-				for (j = 0; j < 8;j++) {
+				for (j = 0; j < 8; j++) {
 					X = vertices2[bind2[2][i]][j][0];
 					Y = vertices2[bind2[2][i]][j][1];
 					Z = vertices2[bind2[2][i]][j][2];
-					vertices2[bind2[2][i]][j][0]=-Y;
-					vertices2[bind2[2][i]][j][1]=X;
-					vertices2[bind2[2][i]][j][2]=Z;
+					vertices2[bind2[2][i]][j][0] = -Y;
+					vertices2[bind2[2][i]][j][1] = X;
+					vertices2[bind2[2][i]][j][2] = Z;
 				}
 			}
 			bind2[2][0] = temp[1];
@@ -1038,20 +1039,20 @@ void keyboard_handler(unsigned char key, int x, int y){
 			timeint[7] = 0;
 			theta[0] = 0;
 			theta[1] = 0;
-			for (i = 0; i < 6;i++) {
-				for (j = 0; j < 4;j++) {
+			for (i = 0; i < 6; i++) {
+				for (j = 0; j < 4; j++) {
 					bind2[i][j] = obind2[i][j];
 				}
 			}
 			for (i = 0; i < 8; i++) {
 				for (j = 0; j < 8; j++) {
-					for (k = 0; k < 3;k++) {
+					for (k = 0; k < 3; k++) {
 						vertices2[i][j][k] = overtices2[i][j][k];
 					}
 				}
 			}
 		}
-		
+
 	}
 	if (scale == 3) {
 		int temp[9];
@@ -1558,10 +1559,10 @@ void keyboard_handler(unsigned char key, int x, int y){
 				}
 			}
 		}
-		
+
 	}
 	if (scale == 4) {
-		int temp[16],count=0;
+		int temp[16], count = 0;
 		if (key == 'q') {
 			for (i = 0; i < 16; i++) {
 				temp[i] = bind4[2][i];
@@ -3124,7 +3125,7 @@ void keyboard_handler(unsigned char key, int x, int y){
 			timeint[7] = 0;
 			theta[0] = 0;
 			theta[1] = 0;
-			
+
 			for (i = 0; i < 12; i++) {
 				for (j = 0; j < 16; j++) {
 					bind4[i][j] = obind4[i][j];
@@ -3138,7 +3139,7 @@ void keyboard_handler(unsigned char key, int x, int y){
 				}
 			}
 		}
-		
+
 	}
 }
 void startgame() {
@@ -3319,17 +3320,17 @@ void startgame() {
 void stopgame() {
 	ptoggle = 1;
 }
-void mouse_handler(int btn, int state, int x, int y){
+void mouse_handler(int btn, int state, int x, int y) {
 	if (btn == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		dx[0] = x;
 		dy[0] = y;
-		if ((x>1000&&x<1180)&& (y>515 && y<600)) {
+		if ((x>1000 * (sizeW / 1200) && x<1180 * (sizeW / 1200)) && (y>515 * (sizeH / 800) && y<600 * (sizeH / 800))) {
 			startgame();
 		}
-		if ((x>1000 && x<1180) && (y>640 && y<730)) {
+		if ((x>1000 * (sizeW / 1200) && x<1180 * (sizeW / 1200)) && (y>640 * (sizeH / 800) && y<730 * (sizeH / 800))) {
 			stopgame();
 		}
-		if ((x>40 && x<105) && (y>70 && y<95)) {
+		if ((x>40 * (sizeW / 1200) && x<105 * (sizeW / 1200)) && (y>70 * (sizeH / 800) && y<95 * (sizeH / 800))) {
 			if (htoggle == 0)
 				htoggle = 1;
 			else
@@ -3356,21 +3357,33 @@ void mouse_handler(int btn, int state, int x, int y){
 	}
 
 }
-int main(int argc, char* argv[]){
+void changeSize(int w, int h)
+{
+	//창이 아주 작을 때, 0 으로 나누는 것을 예방합니다.
+	if (h == 0)
+		h = 1;
+	float ratio = 1.0* w / h;
+	sizeW = w;
+	sizeH = h;
+	glViewport(0, 0, w, h);
+
+}
+int main(int argc, char* argv[]) {
 	void timer(int);
 
 	glutInit(&argc, (char**)argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(1200, 800);
 	glutCreateWindow("Rubix Cube");
-	
+
 	glutTimerFunc(delay, timer, 0);
 	glutKeyboardFunc(keyboard_handler); // add keyboard handler
 	glutMouseFunc(mouse_handler); // add mouse handler
 	glutDisplayFunc(*display);
+	glutReshapeFunc(changeSize);
 	glEnable(GL_TEXTURE_2D);
 	init();
-	
+
 	texture_load_bmp(&title, "title.bmp");
 	texture_load_bmp(&font[0], "font0.bmp");
 	texture_load_bmp(&font[1], "font1.bmp");
@@ -3400,7 +3413,7 @@ int main(int argc, char* argv[]){
 	return 0;
 }
 void timer(int t) {
-	int sec, min,hour,ms;
+	int sec, min, hour, ms;
 	if (ptoggle == 0) {
 		timet += delay;
 		ms = timet % 1000;
